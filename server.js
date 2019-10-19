@@ -1,4 +1,3 @@
-//asdf
 // Dependencies
 var express = require("express");
 var path = require("path");
@@ -15,10 +14,31 @@ app.use(express.json());
 var reservations = [
   {
     routeName: "liz",
-    name: "Liz",
-    number: "000 000 000",
-    email: 2000,
-    uniqueID: 1
+    customerName: "Liz",
+    phoneNumber: "000 000 000",
+    customerEmail: 2000,
+    customerID: 1
+  },
+  {
+    routeName: "liz",
+    customerName: "Liz",
+    phoneNumber: "000 000 000",
+    customerEmail: 2000,
+    customerID: 1
+  },
+  {
+    routeName: "liz",
+    customerName: "Liz",
+    phoneNumber: "000 000 000",
+    customerEmail: 2000,
+    customerID: 1
+  },
+  {
+    routeName: "liz",
+    customerName: "Liz",
+    phoneNumber: "000 000 000",
+    customerEmail: 2000,
+    customerID: 1
   }
 ];
 
@@ -41,7 +61,7 @@ app.get("/api/tables/:table", function(req, res) {
 });
 
 app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "/home.html"));
+  res.sendFile(path.join(__dirname, "/assets/pages/home.html"));
 });
 
 app.get("/reserve", function(req, res) {
@@ -50,6 +70,14 @@ app.get("/reserve", function(req, res) {
 
 app.get("/tables", function(req, res) {
   res.sendFile(path.join(__dirname, "/assets/pages/table.html"));
+});
+
+app.get("/reserve.js", function(req, res) {
+  res.sendFile(path.join(__dirname, "/assets/pages/reserve.js"));
+});
+
+app.get("/table.js", function(req, res) {
+  res.sendFile(path.join(__dirname, "/assets/pages/table.js"));
 });
 
 app.get("/api/tables", function(req, res) {
@@ -66,15 +94,16 @@ app.post("/api/tables", function(req, res) {
   // req.body hosts is equal to the JSON post sent from the user
   // This works because of our body parsing middleware
   var newReservation = req.body;
+  console.log(newReservation);
 
   if (reservations.length < 5) {
     // Using a RegEx Pattern to remove spaces from newCharacter
     // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-    newReservation.routeName = newReservation.name
+    newReservation.routeName = newReservation.customerName
       .replace(/\s+/g, "")
       .toLowerCase();
 
-    console.log(newReservation);
+    // console.log(newReservation);
 
     reservations.push(newReservation);
 
@@ -85,17 +114,17 @@ app.post("/api/tables", function(req, res) {
   } else {
     // Using a RegEx Pattern to remove spaces from newCharacter
     // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-    newReservation.routeName = newReservation.name
+    newReservation.routeName = newReservation.customerName
       .replace(/\s+/g, "")
       .toLowerCase();
 
-    console.log(newReservation);
+    // console.log(newReservation);
 
     waitingList.push(newReservation);
 
     res.json({
       status: "added-waitingList",
-      table: reservations
+      table: waitingList
     });
   }
 });
@@ -103,7 +132,3 @@ app.post("/api/tables", function(req, res) {
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
 });
-
-// check
-
-// Your server at this point should do the BARE MINIMUM. (Effectively, it should just say: "Listening at PORT 3000" when the command node server.js is run.)
